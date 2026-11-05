@@ -16,17 +16,16 @@ export default function App() {
     try {
       const data = await fetchBugs();
       setBugs(data);
+      setLoading(false);
     } catch (err) {
       setError(err?.message || 'Failed to load bugs.');
-    } finally {
-      setLoading(false);
     }
   }, []);
 
   useEffect(() => {
     loadBugs();
   }, [loadBugs]);
-  
+
   const handleAddBug = (newBug) => {
     setBugs((prevBugs) => [newBug, ...prevBugs]);
   };

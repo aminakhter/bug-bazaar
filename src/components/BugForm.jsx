@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function BugForm({ onAddBug }) {
+export default function BugForm({ onAddBug, bugs}) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [severity, setSeverity] = useState('Medium');
@@ -56,9 +56,9 @@ export default function BugForm({ onAddBug }) {
       <div style={{ margin: '8px 0' }}>
         <label>Severity: </label>
         <select value={severity} onChange={(e) => setSeverity(e.target.value)}>
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
+            {bugs.map((bug) => (
+                <option key={bug.id} value={bug.severity}>{bug.severity}</option>
+            ))}
         </select>
       </div>
 

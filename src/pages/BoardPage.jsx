@@ -7,7 +7,7 @@ export default function BoardPage({ bugs, loading, error, onRetry, onAddBug }) {
   const filteredBugs = bugs.filter((bug) =>
     bug.title.toLowerCase().includes(searchQuery.toLowerCase().trim())
   );
-
+  
   if (loading) return <div>Loading bugs...</div>;
   
   if (error) {
@@ -31,7 +31,7 @@ export default function BoardPage({ bugs, loading, error, onRetry, onAddBug }) {
         style={{ padding: '8px', width: '100%', maxWidth: '300px', marginBottom: '16px' }}
       />
 
-      <BugForm onAddBug={onAddBug} />
+      <BugForm onAddBug={onAddBug} bugs={bugs} />
 
       <BugList bugs={filteredBugs} />
     </div>
