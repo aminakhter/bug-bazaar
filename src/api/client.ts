@@ -48,6 +48,16 @@ export function getForcedErrorCode(): ForcedErrorCode {
   return forcedErrorCode;
 }
 
+let simulateRaceCondition = false;
+
+export function setSimulateRaceCondition(enabled: boolean): void {
+  simulateRaceCondition = enabled;
+}
+
+export function getSimulateRaceCondition(): boolean {
+  return simulateRaceCondition;
+}
+
 interface RequestOptions {
   method?: 'GET' | 'POST';
   body?: unknown;
@@ -75,6 +85,10 @@ async function request<T>(
 
   if (forcedErrorCode !== null) {
     headers['X-Force-Error'] = String(forcedErrorCode);
+  }
+
+  if (simulateRaceCondition) {
+    headers['X-Simulate-Race'] = 'true';
   }
 
   const response = await fetch(`${API_BASE_URL}${path}`, {

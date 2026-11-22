@@ -59,11 +59,14 @@ function checkForcedError(request: Request) {
 export const handlers = [
   // GET /api/products
   http.get('/api/products', async ({ request }) => {
-    await delay(180);
+    const url = new URL(request.url);
+    const searchParam = (url.searchParams.get('search') ?? '').trim();
+    const isRaceSimulated = request.headers.get('X-Simulate-Race') === 'true';
+    // When simulating out-of-order responses, shorter/earlier queries take longer
+    const simulatedDelay = isRaceSimulated ? Math.max(100, 950 - searchParam.length * 180) : 180;
+    await delay(simulatedDelay);
     const forced = checkForcedError(request);
     if (forced) return forced;
-
-    const url = new URL(request.url);
     const search = (url.searchParams.get('search') ?? '').trim().toLowerCase();
     const category = (url.searchParams.get('category') ?? '') as ProductCategory | '';
     const sort = (url.searchParams.get('sort') ?? '') as ProductSortOption | '';
