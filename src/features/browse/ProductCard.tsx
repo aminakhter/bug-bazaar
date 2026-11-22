@@ -3,6 +3,7 @@ import { ShoppingCartOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { Product } from '../../types/api';
 import { formatPrice } from '../../utils/formatPrice';
+import { memo } from 'react';
 import './product-card.scss';
 
 const { Title, Text } = Typography;
@@ -12,7 +13,7 @@ interface ProductCardProps {
   onAddToCart?: (product: Product) => void;
 }
 
-export function ProductCard({ product, onAddToCart }: ProductCardProps) {
+export const ProductCard = memo(function ProductCard({ product, onAddToCart }: ProductCardProps) {
   const isOutOfStock = product.stock === 0;
 
   return (
@@ -64,4 +65,4 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
       </Space>
     </Card>
   );
-}
+});

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Row, Col, Pagination, message } from 'antd';
 import { useSearchParams } from 'react-router-dom';
 import { ProductCategory, ProductSortOption } from '../../types/api';
@@ -85,10 +85,13 @@ export function CatalogPage({ forceEmpty }: CatalogPageProps) {
   const totalCount = state.status === 'success' ? state.data.total : 0;
 
   const dispatch = useAppDispatch();
-const handleAddToCart = (product: Product) => {
-  dispatch(addToCart({ product }));
-  void message.success(`Added "${product.name}" to cart`);
-};
+    const handleAddToCart = useCallback(
+        (product: Product) => {
+            dispatch(addToCart({ product }));
+            void message.success(`Added "${product.name}" to cart`);
+        },
+        [dispatch],
+    );
 
   return (
     <Row gutter={[16, 16]} className="catalog-page">
