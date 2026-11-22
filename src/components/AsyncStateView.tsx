@@ -1,5 +1,7 @@
 import { Alert, Button, Empty, Row, Col, Spin } from 'antd';
 import { AppApiError } from '../types/api';
+import { mapApiError } from '../utils/mapApiError';
+import { NotFoundPage } from '../pages/NotFoundPage';
 import './async-state-view.scss';
 
 interface AsyncStateViewProps {
@@ -26,16 +28,21 @@ export function AsyncStateView({
   }
 
   if (status === 'error') {
+    const mapped = mapApiError(error);
+    if (mapped.isNotFound) {
+      return <NotFoundPage />;
+    }
+
     return (
       <Row gutter={[16, 16]} justify="center" className="async-state">
         <Col xs={24} sm={20} md={16} lg={12} xl={10} xxl={8}>
           <Alert
             type="error"
             showIcon
-            message={error ? `Error ${error.httpStatus}: ${error.code}` : 'Something went wrong'}
-            description={error?.message ?? 'An unexpected error occurred while fetching data.'}
+            message={mapped.title}
+            description={mapped.description}
             action={
-              onRetry ? (
+              onRetry && mapped.canRetry ? (
                 <Button size="small" type="primary" danger onClick={onRetry}>
                   Retry
                 </Button>
