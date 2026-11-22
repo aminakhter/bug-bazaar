@@ -1,0 +1,7 @@
+@use '../styles/variables' as *;
+
+.debug-toolbar {
+  padding: 8px 16px;
+  background-color: $color-bg-container;
+  border-bottom: 1px solid $color-border;
+}
