@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { store } from './store/store';
 import { themeConfig } from './theme/themeConfig';
 import App from './App';
+import { AppErrorBoundary } from './components/AppErrorBoundary';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,7 +40,9 @@ void enableMocking().then(() => {
         <QueryClientProvider client={queryClient}>
           <ConfigProvider theme={themeConfig}>
             <BrowserRouter>
-              <App />
+              <AppErrorBoundary>
+                <App />
+              </AppErrorBoundary>
             </BrowserRouter>
           </ConfigProvider>
         </QueryClientProvider>
