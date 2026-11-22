@@ -1,0 +1,13 @@
+@use '../../styles/variables' as *;
+
+.product-filters {
+  padding: 16px;
+  background-color: $color-bg-container;
+  border: 1px solid $color-border;
+  border-radius: 8px;
+  margin-bottom: 24px;
+
+  &__select {
+    width: 100%;
+  }
+}
