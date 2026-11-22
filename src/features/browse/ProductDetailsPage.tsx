@@ -11,6 +11,7 @@ import {
   Image,
   Breadcrumb,
   Descriptions,
+  message
 } from 'antd';
 import { ArrowLeftOutlined, UpOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Link, useParams } from 'react-router-dom';
@@ -18,6 +19,8 @@ import { apiClient } from '../../api/client';
 import { AppApiError, AsyncState, Product } from '../../types/api';
 import { formatPrice } from '../../utils/formatPrice';
 import { AsyncStateView } from '../../components/AsyncStateView';
+import { useAppDispatch } from '../../store/hooks';
+import { addToCart } from '../../store/cartSlice';
 import './product-details-page.scss';
 
 const { Title, Text } = Typography;
@@ -27,6 +30,8 @@ export function ProductDetailsPage() {
   const [state, setState] = useState<AsyncState<Product>>({ status: 'idle' });
   const [retryCount, setRetryCount] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
+
+  const dispatch = useAppDispatch();
 
   const retry = useCallback(() => {
     setRetryCount((prev) => prev + 1);
@@ -152,6 +157,10 @@ export function ProductDetailsPage() {
                 size="large"
                 icon={<ShoppingCartOutlined />}
                 disabled={isOutOfStock}
+                onClick={() => {
+                    dispatch(addToCart({ product }));
+                    void message.success(`Added "${product.name}" to cart`);
+                }}
               >
                 {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
               </Button>

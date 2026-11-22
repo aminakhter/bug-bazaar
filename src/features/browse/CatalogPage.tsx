@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Row, Col, Pagination } from 'antd';
+import { Row, Col, Pagination, message } from 'antd';
 import { useSearchParams } from 'react-router-dom';
 import { ProductCategory, ProductSortOption } from '../../types/api';
 import { useDebouncedValue } from '../../hooks/useDebouncedValue';
 import { useProductsQuery } from '../../hooks/useProductsQuery';
 import { AsyncStateView } from '../../components/AsyncStateView';
+import { useAppDispatch } from '../../store/hooks';
+import { addToCart } from '../../store/cartSlice';
 import { ProductFilters } from './ProductFilters';
 import { ProductCard } from './ProductCard';
+import { Product } from '../../types/api';
 import './catalog-page.scss';
 
 const PAGE_SIZE = 24;
@@ -81,6 +84,12 @@ export function CatalogPage({ forceEmpty }: CatalogPageProps) {
   const hasActiveFilters = Boolean(urlSearch || category || sort || inStockOnly);
   const totalCount = state.status === 'success' ? state.data.total : 0;
 
+  const dispatch = useAppDispatch();
+const handleAddToCart = (product: Product) => {
+  dispatch(addToCart({ product }));
+  void message.success(`Added "${product.name}" to cart`);
+};
+
   return (
     <Row gutter={[16, 16]} className="catalog-page">
       <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
@@ -118,7 +127,7 @@ export function CatalogPage({ forceEmpty }: CatalogPageProps) {
         <>
           {state.data.items.map((product) => (
             <Col key={product.id} xs={24} sm={12} md={8} lg={6} xl={6} xxl={4}>
-              <ProductCard product={product} />
+              <ProductCard onAddToCart={handleAddToCart} product={product} />
             </Col>
           ))}
 

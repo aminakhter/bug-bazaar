@@ -1,0 +1,14 @@
+@use '../../styles/variables' as *;
+
+.cart-page {
+  &__summary {
+    background-color: $color-bg-container;
+    border: 1px solid $color-border;
+  }
+
+  &__total {
+    font-size: 20px;
+    font-weight: 700;
+    color: $color-primary;
+  }
+}
