@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Layout, Typography, Row, Col, Space, Button, Badge } from 'antd';
+import { Layout, Typography, Row, Col, Space, Button, Badge, Tag } from 'antd';
 import { ShoppingCartOutlined, UserOutlined, LoginOutlined } from '@ant-design/icons';
 import { Link, Route, Routes } from 'react-router-dom';
 import { setSimulateRaceCondition } from './api/client';
@@ -14,6 +14,7 @@ import { LoginPage } from './features/auth/LoginPage';
 import { AccountPage } from './features/auth/AccountPage';
 import { ProtectedRoute } from './features/auth/ProtectedRoute';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { useLiveStockFeed } from './hooks/useLiveStockFeed';
 import './app.scss';
 
 const { Header, Content } = Layout;
@@ -26,6 +27,8 @@ export default function App() {
   const cartCount = useAppSelector(selectCartTotalCount);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const currentUser = useAppSelector(selectCurrentUser);
+
+  const { status: feedStatus, triggerDrop } = useLiveStockFeed();
 
   const handleSimulateRaceChange = (checked: boolean) => {
     setSimulateOutOfOrder(checked);
@@ -65,6 +68,12 @@ export default function App() {
                   </Button>
                 </Link>
               )}
+              <Tag color={feedStatus === 'connected' ? 'success' : feedStatus === 'connecting' ? 'warning' : 'error'}>
+                Stock Feed: {feedStatus}
+                </Tag>
+                <Button size="small" onClick={triggerDrop}>
+                Test Reconnect
+                </Button>
             </Space>
           </Col>
         </Row>
