@@ -1,9 +1,21 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ConfigProvider } from 'antd';
+import { Provider } from 'react-redux';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
+import { store } from './store/store';
 import { themeConfig } from './theme/themeConfig';
 import App from './App';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 30_000,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 async function enableMocking(): Promise<void> {
   const shouldMock = import.meta.env.VITE_ENABLE_MOCK_API !== 'false';
@@ -23,11 +35,15 @@ if (!rootElement) {
 void enableMocking().then(() => {
   createRoot(rootElement).render(
     <StrictMode>
-      <ConfigProvider theme={themeConfig}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </ConfigProvider>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <ConfigProvider theme={themeConfig}>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </ConfigProvider>
+        </QueryClientProvider>
+      </Provider>
     </StrictMode>,
   );
 });
