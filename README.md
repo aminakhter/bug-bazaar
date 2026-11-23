@@ -172,3 +172,5 @@ Never store secrets or bearer tokens in `VITE_*` variables.
 - [Authentication decisions](docs/auth.md)
 - [Architecture decisions](docs/decisions.md)
 - [UI standards](UI.md)
+
+<!-- verify CI workflow on pull request -->
