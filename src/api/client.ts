@@ -18,7 +18,10 @@ import {
   UserSchema,
 } from '../types/api';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api';   
+const rawBaseUrl = import.meta.env.VITE_API_BASE_URL ?? '/api';
+const API_BASE_URL = rawBaseUrl.startsWith('http')
+  ? rawBaseUrl
+  : `${typeof window !== 'undefined' && window.location.origin !== 'null' ? window.location.origin : 'http://localhost:5173'}${rawBaseUrl}`;
 
 // In-memory auth token store (never stored in localStorage per security rules)
 let authToken: string | null = null;
@@ -95,8 +98,8 @@ async function request<T>(
     method: options.method ?? 'GET',
     headers,
     body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
-    signal: options.signal,
   });
+  
 
   const rawText = await response.text();
   let parsedJson: unknown = null;

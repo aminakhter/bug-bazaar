@@ -38,9 +38,16 @@ function generateSeedProducts(count: number): Product[] {
     // Rating between 3.0 and 5.0
     const rating = Number((3 + ((i * 13) % 21) / 10).toFixed(1));
 
+    const name =
+      i === 1
+        ? 'Async Linear Switch Pack #1'
+        : i === 2
+          ? 'Recursive Captain Segfault Duck #2'
+          : `${adj} ${noun} #${i}`;
+
     products.push({
       id: `prod-${String(i).padStart(4, '0')}`,
-      name: `${adj} ${noun} #${i}`,
+      name,
       price,
       category,
       stock,

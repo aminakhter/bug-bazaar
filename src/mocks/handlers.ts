@@ -58,7 +58,7 @@ function checkForcedError(request: Request) {
 
 export const handlers = [
   // GET /api/products
-  http.get('/api/products', async ({ request }) => {
+  http.get('*/api/products', async ({ request }) => {
     const url = new URL(request.url);
     const searchParam = (url.searchParams.get('search') ?? '').trim();
     const isRaceSimulated = request.headers.get('X-Simulate-Race') === 'true';
@@ -113,7 +113,7 @@ export const handlers = [
   }),
 
   // GET /api/products/:id
-  http.get('/api/products/:id', async ({ params, request }) => {
+  http.get('*/api/products/:id', async ({ params, request }) => {
     await delay(120);
     const forced = checkForcedError(request);
     if (forced) return forced;
@@ -127,7 +127,7 @@ export const handlers = [
   }),
 
   // POST /api/login
-  http.post('/api/login', async ({ request }) => {
+  http.post('*/api/login', async ({ request }) => {
     await delay(200);
     const forced = checkForcedError(request);
     if (forced) return forced;
@@ -150,7 +150,7 @@ export const handlers = [
   }),
 
   // GET /api/me
-  http.get('/api/me', async ({ request }) => {
+  http.get('*/api/me', async ({ request }) => {
     await delay(100);
     const forced = checkForcedError(request);
     if (forced) return forced;
@@ -164,7 +164,7 @@ export const handlers = [
   }),
 
   // POST /api/orders
-  http.post('/api/orders', async ({ request }) => {
+  http.post('*/api/orders', async ({ request }) => {
     await delay(250);
     const forced = checkForcedError(request);
     if (forced) return forced;
@@ -223,7 +223,7 @@ export const handlers = [
   }),
 
   // GET /api/orders/:id
-  http.get('/api/orders/:id', async ({ params, request }) => {
+  http.get('*/api/orders/:id', async ({ params, request }) => {
     await delay(120);
     const forced = checkForcedError(request);
     if (forced) return forced;

@@ -38,6 +38,7 @@ export function CatalogPage({ forceEmpty }: CatalogPageProps) {
   // Sync debounced search text into URL query string
   useEffect(() => {
     if (debouncedSearch === urlSearch) return;
+    if (searchInput !== debouncedSearch) return;
     setSearchParams((prev) => {
       const next = new URLSearchParams(prev);
       if (debouncedSearch.trim()) {
