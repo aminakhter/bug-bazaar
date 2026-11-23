@@ -49,7 +49,7 @@ export function CatalogPage({ forceEmpty }: CatalogPageProps) {
       next.delete('page');
       return next;
     });
-  }, [debouncedSearch, urlSearch, setSearchParams]);
+  }, [debouncedSearch, searchInput, urlSearch, setSearchParams]);
 
   const updateParam = (key: string, value: string | null) => {
     setSearchParams((prev) => {

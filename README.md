@@ -55,6 +55,16 @@ npm run build
 npm run preview
 ```
 
+### Deploy to GitHub Pages
+
+The GitHub Actions workflow deploys the `main` branch to:
+
+<https://aminakhter.github.io/bug-bazaar/>
+
+Push or merge a change to `main` to start deployment. You can also run the workflow manually from the repository's **Actions** tab. In GitHub, set **Settings → Pages → Build and deployment → Source** to **GitHub Actions**.
+
+The production build uses the `/bug-bazaar/` base path so Vite assets, React Router routes, the MSW worker, and the mock API work beneath the repository name. The workflow adds a `404.html` fallback for direct navigation to client-side routes. If the repository is renamed, update the base path in `vite.config.ts` and the Pages URL in this README.
+
 ## Demo Login
 
 Use these credentials on the Sign In page:
@@ -172,3 +182,5 @@ Never store secrets or bearer tokens in `VITE_*` variables.
 - [Authentication decisions](docs/auth.md)
 - [Architecture decisions](docs/decisions.md)
 - [UI standards](UI.md)
+
+<!-- verify CI workflow on pull request -->

@@ -24,6 +24,9 @@ async function enableMocking(): Promise<void> {
 
   const { worker } = await import('./mocks/browser');
   await worker.start({
+    serviceWorker: {
+      url: `${import.meta.env.BASE_URL}mockServiceWorker.js`,
+    },
     onUnhandledRequest: 'bypass',
   });
 }
@@ -39,7 +42,7 @@ void enableMocking().then(() => {
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <ConfigProvider theme={themeConfig}>
-            <BrowserRouter>
+            <BrowserRouter basename={import.meta.env.BASE_URL}>
               <AppErrorBoundary>
                 <App />
               </AppErrorBoundary>
